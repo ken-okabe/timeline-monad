@@ -74,7 +74,7 @@ remote CDN
 ----
 
 ++++
-<iframe height="265" style="width: 100%;" scrolling="no" title="Hello Timeline" src="//codepen.io/stken2050/embed/ZwOaEr/?height=265&theme-id=36003&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+<iframe height="265" style="width: 100%;" scrolling="no" title="Hello Timeline" src="https://codepen.io/stken2050/embed/ZwOaEr/?height=265&theme-id=36003&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/stken2050/pen/ZwOaEr/'>Hello Timeline</a> by Ken OKABE
   (<a href='https://codepen.io/stken2050'>@stken2050</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
@@ -137,7 +137,7 @@ remote CDN
 ----
 
 ++++
-<iframe height="497" style="width: 100%;" scrolling="no" title="Hello All Timeline" src="//codepen.io/stken2050/embed/KJMZWE/?height=497&theme-id=36003&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+<iframe height="497" style="width: 100%;" scrolling="no" title="Hello All Timeline" src="https://codepen.io/stken2050/embed/KJMZWE/?height=497&theme-id=36003&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/stken2050/pen/KJMZWE/'>Hello All Timeline</a> by Ken OKABE
   (<a href='https://codepen.io/stken2050'>@stken2050</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
