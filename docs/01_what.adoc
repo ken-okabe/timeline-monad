@@ -14,7 +14,7 @@ because it has a https://ncatlab.org/nlab/show/monad[_monad_] structure.
 4. The code is https://github.com/stken2050/timeline-monad/tree/master/test-jest[heavily tested] including to https://github.com/stken2050/timeline-monad/blob/master/test-jest/monad.test.js[satisfy monad laws]. 
 
 ++++
-<iframe height="780" style="width: 100%;" scrolling="no" title="Monadic FRP (timeline-monad)" src="//codepen.io/stken2050/embed/MLQVRQ/?height=780&theme-id=36003&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
+<iframe height="780" style="width: 100%;" scrolling="no" title="Monadic FRP (timeline-monad)" src="https://codepen.io/stken2050/embed/MLQVRQ/?height=780&theme-id=36003&default-tab=js,result" frameborder="no" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/stken2050/pen/MLQVRQ/'>Monadic FRP (timeline-monad)</a> by Ken OKABE
   (<a href='https://codepen.io/stken2050'>@stken2050</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
