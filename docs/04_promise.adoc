@@ -58,7 +58,7 @@ hello timeline
 [source,js]
 .Promise and timeline-monad
 ----
-import { T } from "timeline-monad";
+import { T, world } from "timeline-monad";
 
 const promise = new Promise(resolve => { <1>
 
@@ -73,8 +73,10 @@ const timeline = T(self => { <4>
 
 });
 
-const promise1 = promise.then(a => console.log(a)); <7>
-const timeline1 = timeline.sync(a => console.log(a)); <8>
+world.now = timeline;  <7>
+
+const promise1 = promise.then(a => console.log(a)); <8>
+const timeline1 = timeline.sync(a => console.log(a)); <9>
 ----
 
 <1> Define `promise` and provide the resolving function: `resolve` 
@@ -83,8 +85,9 @@ const timeline1 = timeline.sync(a => console.log(a)); <8>
 <4> Define `timeline` and provide the __timeline__ itself: `self` to update itself 
 <5> Update the current value of `self` = `timeline` as `"Hello timeline!"`
 <6> and that will happen 1 second later
-<7> When `promise` is resolved, then show the value 
-<8> When `timeline` is updated, always show the value 
+<7> Connect the `timeline` to the real-world => *Initialization of the `timeline`*
+<8> When `promise` is resolved, then show the value 
+<9> When `timeline` is updated, always show the value 
 
 [source,shell]
 .Console
@@ -108,6 +111,8 @@ const timeline2 = T(self => {
 });
 
 const timeline3 = timeline2.sync(a => console.log(a));
+
+world.now = timeline; 
 ----
 
 <1> In this code, the only difference is to use `setInterval` instead of `setTimeout`

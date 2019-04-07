@@ -186,6 +186,9 @@ const drawTL = T(self => {   <3>
 const timeline = pointerTL.sync(pointer =>    <4>
   drawTL.now = pointer
 );
+
+world.now = pointerTL;
+world.now = drawTL;
 ----
 
 <1> canvas DOM node
@@ -205,7 +208,7 @@ const timeline = pointerTL.sync(pointer =>    <4>
 [source,js]
 .timeline virtualDOM
 ----
-import { T } from "../../node_modules/timeline-monad/dist/esm/timeline-monad.js";
+import { T, world } from "../../node_modules/timeline-monad/code/dist/timeline-monad.js";
 import { h, patch } from "../../node_modules/superfine/src/index.js";
 
 const canvas = document.getElementById('vdom1'); <1>
@@ -235,6 +238,9 @@ const drawTL = T(self => {    <3>
 const timeline = pointerTL.sync(pointer =>   <4>
   drawTL.now = pointer
 ); 
+
+world.now = pointerTL;
+world.now = drawTL;
 ----
 
 <1> real DOM node (named as `canvas`)

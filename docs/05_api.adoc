@@ -5,42 +5,17 @@ ifndef::source-highlighter[:source-highlighter: highlightjs]
 ifndef::highlightjs-theme:[:highlightjs-theme: solarized-dark]
 
 
-[[Syntax]]
-== Syntax
+== T( __timeFunction__ )
 
 [source,js]
 ----
 const timeFunction = (self) ⇒ { /*…​*/ self.now = value;};
 
 const timeline = T( timeFunction );
-
-const timeline1 = timeline.sync( someFunction );
 ----
 
-== TypeScript type definition
-
-https://github.com/stken2050/timeline-monad/blob/master/dist/esm/timeline-monad.d.ts[timeline-monad TypeScript type definition]
-
-[source,js]
-.timeline type definition
-----
-interface timeline {
-    type: string;
-    now: any;
-    sync: Function;
-}
-declare const T: (timeFunction?: Function) => timeline;
-export { T };
-----
-
-
-== T( __timeFunction__ )
-
-[source,js]
-----
-const T: (timeFunction?: Function) => timeline
-----
-
+`timefunction` is a function to be called on *Initialization of the `timeline`* +
+`timeline` can be defined with `timefuncton` that can be empty
 
 == __timeline__.now
 
@@ -57,16 +32,46 @@ const timeline1 = timeline
                          .sync( someFunction );
 ----
 
+`timeline1` is anonther _timeline_ that depends on `timeline` sychronized with `someFunction`
+
+== world.now
+
+[source,js]
+----
+world.now = timeline;
+----
+
+Connect the `timeline` to the real-world => *Initialization of the `timeline`*
+
+== TypeScript type definition
+
+https://github.com/stken2050/timeline-monad/blob/master/dist/esm/timeline-monad.d.ts[timeline-monad TypeScript type definition]
+
+[source,js]
+.timeline type definition
+----
+interface timeline {
+    type: string;
+    timeFunction: Function;
+    now: any;
+    sync: Function;
+}
+declare const world: {
+    now: timeline;
+};
+declare const T: (timeFunction?: Function) => timeline;
+export { T, world };
+
+----
+
+
+
 [TIP]
 .**timeline-monad** is extremely simple and easy to learn.
 ====
-`T`, `now` and `sync` are the only reserved words and elements provided by the module. 
+`T`, `now`, `sync` and `world` are the only reserved words and elements provided by the module. 
 
 
-`T` is a function to return a  __timeline__ object.
-
-__timeFunction__ is a function to define the __timeline__ behavior with the argument `self` (the __timeline__ itself).
-
-__timeFunction__ is executed immediately by the `T` implementation, and when `self.now = value` is defined, the __someFunction__ defined in the `sync` method is evaluated. 
+`T` is a function to return a new  __timeline__ object.
 ====
 

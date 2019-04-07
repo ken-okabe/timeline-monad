@@ -649,8 +649,8 @@ corresponds to <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">    &lt;script type="module"&gt;
-    import { T } from "../node_modules/timeline-monad/dis/esm/timeline-monad.js";
-    import { allThenResetTL } from "../node_modules/timeline-monad/dis/esm/allThenResetTL.js";
+    import { T } from "../node_modules/timeline-monad/code/dist/timeline-monad.js";
+    import { allThenResetTL } from "../node_modules/timeline-monad/code/dist/allThenResetTL.js";
     &lt;/script&gt;</code></pre>
 </div>
 </div>
@@ -854,7 +854,7 @@ hello timeline</code></pre>
 <div class="listingblock">
 <div class="title">Promise and timeline-monad</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">import { T } from "timeline-monad";
+<pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">import { T, world } from "timeline-monad";
 
 const promise = new Promise(resolve =&gt; { <i class="conum" data-value="1"></i><b>(1)</b>
 
@@ -869,8 +869,10 @@ const timeline = T(self =&gt; { <i class="conum" data-value="4"></i><b>(4)</b>
 
 });
 
-const promise1 = promise.then(a =&gt; console.log(a)); <i class="conum" data-value="7"></i><b>(7)</b>
-const timeline1 = timeline.sync(a =&gt; console.log(a)); <i class="conum" data-value="8"></i><b>(8)</b></code></pre>
+world.now = timeline;  <i class="conum" data-value="7"></i><b>(7)</b>
+
+const promise1 = promise.then(a =&gt; console.log(a)); <i class="conum" data-value="8"></i><b>(8)</b>
+const timeline1 = timeline.sync(a =&gt; console.log(a)); <i class="conum" data-value="9"></i><b>(9)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -901,10 +903,14 @@ const timeline1 = timeline.sync(a =&gt; console.log(a)); <i class="conum" data-v
 </tr>
 <tr>
 <td><i class="conum" data-value="7"></i><b>7</b></td>
-<td>When <code>promise</code> is resolved, then show the value</td>
+<td>Connect the <code>timeline</code> to the real-world &#8658; <strong>Initialization of the <code>timeline</code></strong></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>When <code>promise</code> is resolved, then show the value</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
 <td>When <code>timeline</code> is updated, always show the value</td>
 </tr>
 </table>
@@ -931,7 +937,9 @@ const timeline2 = T(self =&gt; {
 
 });
 
-const timeline3 = timeline2.sync(a =&gt; console.log(a));</code></pre>
+const timeline3 = timeline2.sync(a =&gt; console.log(a));
+
+world.now = timeline;</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -963,19 +971,52 @@ Hello timeline!
 <h2 id="_api">5. API</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="Syntax">5.1. Syntax</h3>
+<h3 id="_t_timefunction">5.1. T( <em>timeFunction</em> )</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">const timeFunction = (self) ⇒ { /*…​*/ self.now = value;};
 
-const timeline = T( timeFunction );
-
-const timeline1 = timeline.sync( someFunction );</code></pre>
+const timeline = T( timeFunction );</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>timefunction</code> is a function to be called on <strong>Initialization of the <code>timeline</code></strong><br>
+<code>timeline</code> can be defined with <code>timefuncton</code> that can be empty</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_timeline_now">5.2. <em>timeline</em>.now</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">const timeFunction = (self) ⇒ { /*…​*/ self.now = value;};</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_typescript_type_definition">5.2. TypeScript type definition</h3>
+<h3 id="_sync_somefunction">5.3. .sync( <em>someFunction</em> )</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">const timeline1 = timeline
+                         .sync( someFunction );</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>timeline1</code> is anonther <em>timeline</em> that depends on <code>timeline</code> sychronized with <code>someFunction</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_world_now">5.4. world.now</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">world.now = timeline;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Connect the <code>timeline</code> to the real-world &#8658; <strong>Initialization of the <code>timeline</code></strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_typescript_type_definition">5.5. TypeScript type definition</h3>
 <div class="paragraph">
 <p><a href="https://github.com/stken2050/timeline-monad/blob/master/dist/esm/timeline-monad.d.ts">timeline-monad TypeScript type definition</a></p>
 </div>
@@ -984,36 +1025,15 @@ const timeline1 = timeline.sync( someFunction );</code></pre>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">interface timeline {
     type: string;
+    timeFunction: Function;
     now: any;
     sync: Function;
 }
+declare const world: {
+    now: timeline;
+};
 declare const T: (timeFunction?: Function) =&gt; timeline;
-export { T };</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_t_timefunction">5.3. T( <em>timeFunction</em> )</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">const T: (timeFunction?: Function) =&gt; timeline</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_timeline_now">5.4. <em>timeline</em>.now</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">const timeFunction = (self) ⇒ { /*…​*/ self.now = value;};</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_sync_somefunction">5.5. .sync( <em>someFunction</em> )</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">const timeline1 = timeline
-                         .sync( someFunction );</code></pre>
+export { T, world };</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -1025,16 +1045,10 @@ export { T };</code></pre>
 <td class="content">
 <div class="title"><strong>timeline-monad</strong> is extremely simple and easy to learn.</div>
 <div class="paragraph">
-<p><code>T</code>, <code>now</code> and <code>sync</code> are the only reserved words and elements provided by the module.</p>
+<p><code>T</code>, <code>now</code>, <code>sync</code> and <code>world</code> are the only reserved words and elements provided by the module.</p>
 </div>
 <div class="paragraph">
-<p><code>T</code> is a function to return a  <em>timeline</em> object.</p>
-</div>
-<div class="paragraph">
-<p><em>timeFunction</em> is a function to define the <em>timeline</em> behavior with the argument <code>self</code> (the <em>timeline</em> itself).</p>
-</div>
-<div class="paragraph">
-<p><em>timeFunction</em> is executed immediately by the <code>T</code> implementation, and when <code>self.now = value</code> is defined, the <em>someFunction</em> defined in the <code>sync</code> method is evaluated.</p>
+<p><code>T</code> is a function to return a new  <em>timeline</em> object.</p>
 </div>
 </td>
 </tr>
@@ -1237,7 +1251,10 @@ const drawTL = T(self =&gt; {   <i class="conum" data-value="3"></i><b>(3)</b>
 
 const timeline = pointerTL.sync(pointer =&gt;    <i class="conum" data-value="4"></i><b>(4)</b>
   drawTL.now = pointer
-);</code></pre>
+);
+
+world.now = pointerTL;
+world.now = drawTL;</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1270,7 +1287,7 @@ const timeline = pointerTL.sync(pointer =&gt;    <i class="conum" data-value="4"
 <div class="listingblock">
 <div class="title">timeline virtualDOM</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">import { T } from "../../node_modules/timeline-monad/dist/esm/timeline-monad.js";
+<pre class="highlightjs highlight"><code class="language-js hljs" data-lang="js">import { T, world } from "../../node_modules/timeline-monad/code/dist/timeline-monad.js";
 import { h, patch } from "../../node_modules/superfine/src/index.js";
 
 const canvas = document.getElementById('vdom1'); <i class="conum" data-value="1"></i><b>(1)</b>
@@ -1299,7 +1316,10 @@ const drawTL = T(self =&gt; {    <i class="conum" data-value="3"></i><b>(3)</b>
 
 const timeline = pointerTL.sync(pointer =&gt;   <i class="conum" data-value="4"></i><b>(4)</b>
   drawTL.now = pointer
-);</code></pre>
+);
+
+world.now = pointerTL;
+world.now = drawTL;</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1339,7 +1359,7 @@ const timeline = pointerTL.sync(pointer =&gt;   <i class="conum" data-value="4">
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-04-07 18:52:25 JST
+Last updated 2019-04-08 07:11:45 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css">
