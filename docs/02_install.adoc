@@ -121,8 +121,8 @@ locally installed node module
 [source,js]
 ----
     <script type="module">
-    import { T } from "../node_modules/timeline-monad/dis/esm/timeline-monad.js";
-    import { allThenResetTL } from "../node_modules/timeline-monad/dis/esm/allThenResetTL.js";
+    import { T } from "../node_modules/timeline-monad/code/dist/timeline-monad.js";
+    import { allThenResetTL } from "../node_modules/timeline-monad/code/dist/allThenResetTL.js";
     </script>
 ----
 
