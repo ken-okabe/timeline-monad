@@ -25,12 +25,16 @@ const T = ((Events) => (timeFunction = () => { }) => ((currentVal) => {
                 ? undefined
                 : ev.trigger(currentVal);
         },
-        sync: ((ev) => (f) => world.now = T((self) => right(ev.register((val) => ((newVal) => 
-        // RightIdentity: join = TTX => TX  
-        ((newVal !== undefined) &&
-            (newVal.type === timeline.type)
-            ? newVal.sync((val) => self.now = val)
-            : self.now = newVal))(f(val))))(timeline.now = timeline.now)))(ev)
+        sync: ((ev) => (f) =>
+            world.now = T((self) => right
+                (ev.register((val) => ((newVal) =>
+                    // RightIdentity: join = TTX => TX  
+                    ((newVal !== undefined) &&
+                        (newVal.type === timeline.type)
+                        ? newVal.sync((val) => self.now = val)
+                        : self.now = newVal))(f(val))))
+                (timeline.now = timeline.now)
+            ))(ev)
     }))(Events());
     return timeline;
 })(undefined))(Events);
