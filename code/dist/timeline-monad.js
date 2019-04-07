@@ -6,11 +6,16 @@ const Events = () => ((observers) => ({
     register: (f) => (observers[observers.length] = f),
     trigger: (val) => right(observers.map((f) => f(val)))(val)
 }))([]);
-const T = ((Events) => (timeFunction = () => { }) => {
+const world = {
+    set now(timeline) {
+        timeline.timeFunction(timeline);
+    }
+};
+const T = ((Events) => (timeFunction = () => { }) => ((currentVal) => {
     //immutable in the frozen universe
-    let currentVal = undefined;
     const timeline = ((ev) => ({
         type: "timeline-monad",
+        timeFunction: timeFunction,
         get now() {
             return currentVal;
         },
@@ -20,22 +25,13 @@ const T = ((Events) => (timeFunction = () => { }) => {
                 ? undefined
                 : ev.trigger(currentVal);
         },
-        sync: ((ev) => (f) => {
-            const syncTL = T();
-            const todo = (val) => {
-                const newVal = f(val);
-                // RightIdentity: join = TTX => TX  
-                return (newVal !== undefined) &&
-                    (newVal.type === timeline.type)
-                    ? newVal.sync((val) => syncTL.now = val)
-                    : syncTL.now = newVal;
-            };
-            ev.register(todo);
-            timeline.now = timeline.now;
-            return syncTL;
-        })(ev)
+        sync: ((ev) => (f) => world.now = T((self) => right(ev.register((val) => ((newVal) => 
+        // RightIdentity: join = TTX => TX  
+        ((newVal !== undefined) &&
+            (newVal.type === timeline.type)
+            ? newVal.sync((val) => self.now = val)
+            : self.now = newVal))(f(val))))(timeline.now = timeline.now)))(ev)
     }))(Events());
-    timeFunction(timeline);
     return timeline;
-})(Events);
-export { T };
+})(undefined))(Events);
+export { T, world };

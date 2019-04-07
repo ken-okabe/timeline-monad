@@ -1,11 +1,11 @@
 
 const requireEsm = require('esm')(module);
 
-const { T } = requireEsm("../dist/esm/timeline-monad.js");
+const { T, world } = requireEsm("../code/dist/timeline-monad.js");
 
 //instant fill
 const timelineOf = (a) =>
-  T(self => (self.now = a));
+  world.now = T(self => (self.now = a));
 
 const matchTL = (TL1) => (TL2) =>
   TL1.now.type === undefined

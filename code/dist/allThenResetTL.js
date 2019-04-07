@@ -1,8 +1,8 @@
-import { T } from "./timeline-monad.js";
+import { T, world } from "./timeline-monad.js";
 const right = (a) => (b) => b;
 const replace = (arr) => (index) => (val) => [...arr.slice(0, index), val,
     ...arr.slice(index + 1)];
-const updateFlagsTL = (TLs) => (selfAll) => T((self) => {
+const updateFlagsTL = (TLs) => (selfAll) => world.now = T((self) => {
     self.now = Array(TLs.length).fill(0);
     TLs
         .map((TL, index1) => TL.sync(() => right(TLs.map((tl, index0) => (tl.now === undefined)
@@ -14,5 +14,5 @@ const updateFlagsTL = (TLs) => (selfAll) => T((self) => {
             ? undefined //no trigger
             : right(self.now = Array(TLs.length).fill(0))(TLs.map((TL) => TL.now)));
 });
-const allThenResetTL = (TLs) => T((selfAll) => updateFlagsTL(TLs)(selfAll));
+const allThenResetTL = (TLs) => world.now = T((selfAll) => updateFlagsTL(TLs)(selfAll));
 export { allThenResetTL };

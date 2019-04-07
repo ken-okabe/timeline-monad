@@ -20,7 +20,7 @@ https://github.com/stken2050/unlimitedjs[unlimitedjs (timeline-monad + superfine
 
 Just use:
 
-https://github.com/stken2050/timeline-monad/blob/master/dist/esm/timeline-monad.js
+https://github.com/stken2050/timeline-monad/blob/master/code/dist/timeline-monad.js
 
 [source,js]
 ----
@@ -31,14 +31,14 @@ or
 
 [source,js]
 ----
-import { T } from "timeline-monad/dist/esm/timeline-monad.js";
+import { T } from "timeline-monad/code/dist/timeline-monad.js";
 ----
 
 or
 
 [source,js]
 ----
-import { T } from "../node_modules/timeline-monad/dist/esm/timeline-monad.js";
+import { T } from "../node_modules/timeline-monad/code/dist/timeline-monad.js";
 ----
 
 === ES Module (ESM) from Browser
@@ -51,7 +51,7 @@ local ESM in any location
 [source,js]
 ----
     <script type="module">
-        import { T } from "./dist/esm/timeline-monad.js";
+        import { T } from "./code/dist/timeline-monad.js";
     </script>
 ----
 
@@ -60,7 +60,7 @@ locally installed node module
 [source,js]
 ----
     <script type="module">
-        import { T } from "../node_modules/timeline-monad/dist/esm/timeline-monad.js";
+        import { T } from "../node_modules/timeline-monad/code/dist/timeline-monad.js";
     </script>
 ----
 
@@ -69,7 +69,7 @@ remote CDN
 [source,js]
 ----
     <script type="module">
-        import { T } from "https://unpkg.com/timeline-monad/dist/esm/timeline-monad.js";
+        import { T } from "https://unpkg.com/timeline-monad/code/dist/timeline-monad.js";
     </script>
 ----
 
@@ -90,18 +90,18 @@ corresponds to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 
 Just use:
 
-https://github.com/stken2050/timeline-monad/blob/master/dist/esm/allThenResetTL.js
+https://github.com/stken2050/timeline-monad/blob/master/code/dist/allThenResetTL.js
 
 [source,js]
 ----
-import { allThenResetTL.js } from "timeline-monad/dist/esm/allThenResetTL.js"; 
+import { allThenResetTL.js } from "timeline-monad/code/dist/allThenResetTL.js"; 
 ----
 
 or
 
 [source,js]
 ----
-import { allThenResetTL.js } from "../node_modules/timeline-monad/dist/esm/allThenResetTL.js";
+import { allThenResetTL.js } from "../node_modules/timeline-monad/code/dist/allThenResetTL.js";
 ----
 
 === ES Module (ESM) from Browser
@@ -111,8 +111,8 @@ local ESM in any location
 [source,js]
 ----
     <script type="module">
-    import { T } from "./dist/esm/timeline-monad.js";
-    import { allThenResetTL } from "./dist/esm/allThenResetTL.js";
+    import { T } from "./code/dist/timeline-monad.js";
+    import { allThenResetTL } from "./code/dist/allThenResetTL.js";
     </script>
 ----
 
@@ -131,8 +131,8 @@ remote CDN
 [source,js]
 ----
     <script type="module">
-        import { T } from "https://unpkg.com/timeline-monad/dist/esm/timeline-monad.js";
-        import { allThenResetTL } from "https://unpkg.com/timeline-monad/dist/esm/allThenResetTL.js";
+        import { T } from "https://unpkg.com/timeline-monad/code/dist/timeline-monad.js";
+        import { allThenResetTL } from "https://unpkg.com/timeline-monad/code/dist/allThenResetTL.js";
     </script>
 ----
 
@@ -145,6 +145,6 @@ remote CDN
 
 == TypeScript Type definition files
 
-https://github.com/stken2050/timeline-monad/blob/master/dist/esm/timeline-monad.d.ts
+https://github.com/stken2050/timeline-monad/blob/master/code/dist/timeline-monad.d.ts
 
-https://github.com/stken2050/timeline-monad/blob/master/dist/esm/allThenResetTL.d.ts
+https://github.com/stken2050/timeline-monad/blob/master/code/dist/allThenResetTL.d.ts

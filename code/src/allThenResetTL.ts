@@ -1,4 +1,4 @@
-import { T } from
+import { T, world } from
   "./timeline-monad.js";
 
 interface timeline {
@@ -17,7 +17,7 @@ const replace = (arr: number[]) =>
 
 const updateFlagsTL = (TLs: timeline[]) =>
   (selfAll: timeline) =>
-    T((self: timeline) => {
+    world.now = T((self: timeline) => {
       self.now = Array(TLs.length).fill(0);
 
       TLs
@@ -49,7 +49,7 @@ const updateFlagsTL = (TLs: timeline[]) =>
 
 const allThenResetTL =
   (TLs: timeline[]): timeline =>
-    T((selfAll: timeline) =>
+    world.now = T((selfAll: timeline) =>
       updateFlagsTL(TLs)(selfAll)
     );
 

@@ -1,6 +1,6 @@
 
 const requireEsm = require('esm')(module);
-const { T } = requireEsm("../dist/esm/timeline-monad.js");
+const { T } = requireEsm("../code/dist/timeline-monad.js");
 const True = (done) => () => {
     done();
     return true;
