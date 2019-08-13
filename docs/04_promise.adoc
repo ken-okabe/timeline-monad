@@ -112,7 +112,7 @@ const timeline2 = T(self => {
 
 const timeline3 = timeline2.sync(a => console.log(a));
 
-world.now = timeline; 
+world.now = timeline2; 
 ----
 
 <1> In this code, the only difference is to use `setInterval` instead of `setTimeout`

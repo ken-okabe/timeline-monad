@@ -1,6 +1,6 @@
 {
   "name": "timeline-monad",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Micro Functional Reactive Programming (FRP) Framework with Monad structure",
   "module": "./code/dist/esm/timeline-monad.js",
   "types": "./code/dist/esm/timeline-monad.d.ts",
