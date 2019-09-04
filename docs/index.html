@@ -799,8 +799,10 @@ const timeline2 = timeline1.sync(a =&gt; a + " timeline"); <i class="conum" data
 const promise3 = promise2.then(a =&gt; console.log(a)); <i class="conum" data-value="5"></i><b>(5)</b>
 const timeline3 = timeline2.sync(a =&gt; console.log(a)); <i class="conum" data-value="6"></i><b>(6)</b>
 
-promise1resolve("hello"); <i class="conum" data-value="7"></i><b>(7)</b>
-timeline1.now = "hello"; <i class="conum" data-value="8"></i><b>(8)</b></code></pre>
+world.now = timeline1;  <i class="conum" data-value="7"></i><b>(7)</b>
+
+promise1resolve("hello"); <i class="conum" data-value="8"></i><b>(8)</b>
+timeline1.now = "hello"; <i class="conum" data-value="9"></i><b>(9)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -831,10 +833,14 @@ timeline1.now = "hello"; <i class="conum" data-value="8"></i><b>(8)</b></code></
 </tr>
 <tr>
 <td><i class="conum" data-value="7"></i><b>7</b></td>
-<td>Resolve the value of <code>promise1</code> as <code>"hello"</code></td>
+<td>Connect the <code>timeline1</code> to the real-world &#8658; <strong>Initialization of the <code>timeline1</code></strong></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>Resolve the value of <code>promise1</code> as <code>"hello"</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
 <td>Update the current value of <code>timeline1</code> as <code>"hello"</code></td>
 </tr>
 </table>
@@ -939,7 +945,7 @@ const timeline2 = T(self =&gt; {
 
 const timeline3 = timeline2.sync(a =&gt; console.log(a));
 
-world.now = timeline;</code></pre>
+world.now = timeline2;</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1359,7 +1365,7 @@ world.now = drawTL;</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-04-08 07:11:45 JST
+Last updated 2019-09-04 09:30:57 JST
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css">

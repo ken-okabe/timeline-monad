@@ -29,8 +29,10 @@ const timeline2 = timeline1.sync(a => a + " timeline"); <4>
 const promise3 = promise2.then(a => console.log(a)); <5>
 const timeline3 = timeline2.sync(a => console.log(a)); <6>
 
-promise1resolve("hello"); <7>
-timeline1.now = "hello"; <8>
+world.now = timeline1;  <7>
+
+promise1resolve("hello"); <8>
+timeline1.now = "hello"; <9>
 ----
 
 <1> Define an empty Promise
@@ -39,8 +41,10 @@ timeline1.now = "hello"; <8>
 <4> `timeline1.sync` method **returns another __timeline__: `timeline2`** that is always synchronized along with the specified function with the updated current value: `a` of `timeline1`
 <5> When `promise2` is resolved, then show the value 
 <6> When `timeline2` is updated, always show the value 
-<7> Resolve the value of `promise1` as `"hello"`
-<8> Update the current value of `timeline1` as `"hello"`
+<7> Connect the `timeline1` to the real-world => *Initialization of the `timeline1`*
+<8> Resolve the value of `promise1` as `"hello"`
+<9> Update the current value of `timeline1` as `"hello"`
+
 
 [source,shell]
 .Console
