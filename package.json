@@ -6,7 +6,7 @@
   "types": "./code/dist/esm/timeline-monad.d.ts",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose"
   },
   "files": [
     "code/dist/",

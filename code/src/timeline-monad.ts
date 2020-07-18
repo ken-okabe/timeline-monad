@@ -26,8 +26,8 @@ const events = (observers: Function[]) => ({
     (val)
 });
 
-const T = (initFunction: Function = (timeline: timeline) => undefined): timeline => {
-  //immutable in the frozen universe
+const T = (initFunction: Function =
+  (timeline: timeline) => undefined): timeline => {
   const timeline = ((currentVal: any) => (ev: any) => ({
     type: "timeline-monad",  //for TTX => TX
     get now() { //getter returns a value of now
@@ -41,7 +41,7 @@ const T = (initFunction: Function = (timeline: timeline) => undefined): timeline
     },
     sync: ((ev) => (f: Function) =>
       T((self: timeline) =>
-        third // first, register the sync function
+        third //<1> first, register the sync function
           (ev.register((val: unknown) =>
             ((nextVal: undefined | timeline) =>
               // RightIdentity: join = TTX => TX  
@@ -51,15 +51,14 @@ const T = (initFunction: Function = (timeline: timeline) => undefined): timeline
                   self.next = val)
                 : (self.next = nextVal) /*&& (log(self.now))*/
               ))(f(val)))) //nextVal
+          //<2> trigger the left operand on joint
           (timeline.next = timeline.now)
-          //trigger the left operand on joint
-          (self.now)//returns init value on joint
+          (self.now)//<3> returns init value on joint
       ))(ev),
     "->": (f: Function) => timeline.sync(f)
   }))(undefined)(events([]));
-
-  timeline.next = initFunction(timeline);
   //just initialization and no trigger since there's no sync yet
+  timeline.next = initFunction(timeline);
   return timeline;
 };
 

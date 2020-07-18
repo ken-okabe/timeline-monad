@@ -1,7 +1,7 @@
 import { T } from "./code/dist/timeline-monad.js";
 import { allThenResetTL } from "./code/dist/allThenResetTL.js";
 
-{
+/*{
   const left = (a) => (b) => a;
   const right = (a) => (b) => b;
   const IO = {};
@@ -28,12 +28,15 @@ import { allThenResetTL } from "./code/dist/allThenResetTL.js";
     IO.start.next = "start";
   }
 
-}
+}*/
 
-const a = T(self => 1)['->'](a => a * 2);
+const a = T(self => 1)['->']
+  (a => T(self => a * 2));
 //const b = a['->'](a => a * 2);
 
 a['->'](console.log);
+
+a.next = 5;
 
 //console.log(a.now);
 //console.log(b.now);
