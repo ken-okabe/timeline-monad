@@ -34,15 +34,7 @@ const timeline1 = timeline
 
 `timeline1` is anonther _timeline_ that depends on `timeline` sychronized with `someFunction`
 
-== world.now
-
-[source,js]
-----
-world.now = timeline;
-----
-
-Connect the `timeline` to the real-world => *Initialization of the `timeline`*
-
+ 
 == TypeScript type definition
 
 https://github.com/stken2050/timeline-monad/blob/master/dist/esm/timeline-monad.d.ts[timeline-monad TypeScript type definition]
@@ -52,16 +44,13 @@ https://github.com/stken2050/timeline-monad/blob/master/dist/esm/timeline-monad.
 ----
 interface timeline {
     type: string;
-    timeFunction: Function;
     now: any;
+    next: any;
     sync: Function;
+    "->": Function;
 }
-declare const world: {
-    now: timeline;
-};
-declare const T: (timeFunction?: Function) => timeline;
-export { T, world };
-
+declare const T: (initFunction?: Function) => timeline;
+export { T };
 ----
 
 
@@ -69,7 +58,7 @@ export { T, world };
 [TIP]
 .**timeline-monad** is extremely simple and easy to learn.
 ====
-`T`, `now`, `sync` and `world` are the only reserved words and elements provided by the module. 
+`T`, `now`, `sync` (`"->"`)  are the only reserved words and elements provided by the module. 
 
 
 `T` is a function to return a new  __timeline__ object.

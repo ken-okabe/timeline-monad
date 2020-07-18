@@ -1,11 +1,8 @@
-
-const requireEsm = require('esm')(module);
-
-const { T, world } = requireEsm("../code/dist/timeline-monad.js");
+import { T } from "../code/dist/timeline-monad.js";
+import { allThenResetTL } from "../code/dist/allThenResetTL.js";
 
 //instant fill
-const timelineOf = (a) =>
-  world.now = T(self => (self.now = a));
+const timelineOf = (a) => T(self => a);
 
 const matchTL = (TL1) => (TL2) =>
   TL1.now.type === undefined
@@ -35,8 +32,7 @@ const monadTest = (a) =>
     describe("Left Identity", () => {
 
       const timeline1 =
-        timelineOf(a)
-          .sync(f);
+        timelineOf(a)['->'](f);
 
       const timeline2 =
         f(a);
@@ -53,7 +49,7 @@ const monadTest = (a) =>
         f(a);
 
       const timeline2 =
-        f(a).sync(timelineOf)
+        f(a)['->'](timelineOf)
 
       test(str(timeline1)(timeline2), () =>
         matchTL(timeline1)(timeline2)
@@ -66,15 +62,14 @@ const monadTest = (a) =>
 
       const timeline1 =
         timelineOf(a)
-          .sync(f)
-          .sync(g);
+        ['->'](f)
+        ['->'](g);
 
       const timeline2 =
         timelineOf(a)
-          .sync(b =>
-            timelineOf(b)
-              .sync(f)
-              .sync(g));
+        ['->'](b => timelineOf(b)
+        ['->'](f)
+        ['->'](g));
 
       test(str(timeline1)(timeline2), () =>
         matchTL(timeline1)(timeline2)
@@ -103,11 +98,11 @@ const g = (a) => (a + 1);
   const a = timelineOf(5);
 
   const fTL = compose
-    ((a) => (a.sync(f)))
+    ((a) => (a['->'](f)))
     (timelineOf);
 
   const gTL = compose
-    ((a) => (a.sync(g)))
+    ((a) => (a['->'](g)))
     (timelineOf);
 
   monadTest(a)(fTL)(gTL);

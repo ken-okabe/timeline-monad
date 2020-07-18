@@ -1,12 +1,15 @@
-import { T, world } from
+import { T } from
   "./timeline-monad.js";
 
 interface timeline {
   type: string;
   now: any;
+  next: any;
   sync: Function;
+  "->": Function;
 }
 
+const left = (a: any) => (b: any) => a;
 const right = (a: any) => (b: any) => b;
 
 const replace = (arr: number[]) =>
@@ -15,42 +18,41 @@ const replace = (arr: number[]) =>
       [...arr.slice(0, index), val,
       ...arr.slice(index + 1)];
 
-const updateFlagsTL = (TLs: timeline[]) =>
-  (selfAll: timeline) =>
-    world.now = T((self: timeline) => {
-      self.now = Array(TLs.length).fill(0);
-
-      TLs
-        .map((TL, index1) =>
-          TL.sync(
-            () => right
-
-              (TLs.map((tl, index0) =>
-                (tl.now === undefined)
-                  ? self.now = replace(self.now)(index0)(0)
-                  : undefined))
-
-              (self.now = replace(self.now)(index1)(1))
-          )
-        );
-
-      self.sync(
-        (updateFlags: number[]) =>
-          selfAll.now =
-          (updateFlags //all  updated--------
-            .reduce((a: number, b: number) =>
-              (a * b)) !== 1)
-            ? undefined//no trigger
-            : right
-              (self.now = Array(TLs.length).fill(0))
-              (TLs.map((TL) => TL.now))
-      );
-    });
+const mm = (A: number[]) => (B: number[]) =>
+  A.map((a, index) => a * B[index]);
 
 const allThenResetTL =
   (TLs: timeline[]): timeline =>
-    world.now = T((selfAll: timeline) =>
-      updateFlagsTL(TLs)(selfAll)
-    );
+    ((flagTL: timeline) =>
+      T((self: timeline) => left
+        (undefined)
+        (right
+          (
+            TLs.map((TL, index) =>
+              TL.sync(() =>
+                ((uMask: number[]) =>
+                  (target: number[]) =>
+                    flagTL.next = mm(uMask)(target))
+                  (TLs.map(TL =>
+                    TL.now === undefined ? 0 : 1))
+                  (replace(flagTL.now)(index)(1))
+              )
+            )
+          )
+          (
+            flagTL.sync(
+              (flags: number[]) =>
+                self.next = //all  updated?
+                (flags.reduce((a: number, b: number) => (a * b))
+                  === 1)
+                  ? left
+                    (TLs.map((TL) => TL.now))
+                    (flagTL.next = Array(TLs.length).fill(0))
+                  : undefined//no trigger                   
+            )
+          )
+        )
+      )
+    )(T((self: timeline) => Array(TLs.length).fill(0)));
 
 export { allThenResetTL };

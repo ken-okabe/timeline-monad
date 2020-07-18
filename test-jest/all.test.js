@@ -1,8 +1,5 @@
-
-const requireEsm = require('esm')(module);
-
-const { T } = requireEsm("../code/dist/timeline-monad.js");
-const { allThenResetTL } = requireEsm("../code/dist/allThenResetTL");
+import { T } from "../code/dist/timeline-monad.js";
+import { allThenResetTL } from "../code/dist/allThenResetTL.js";
 const True = (done) => () => {
     done();
     return true;
@@ -17,7 +14,7 @@ test("timelineAB = allThenResetTL" +
             [timelineA, timelineB]);
         timelineAB
             .sync((arr) => expect(arr).toEqual([1, 2]));
-        timelineA.now = 1;
+        timelineA.next = 1;
         //-------------------------- 
         //async test helper
         timelineAB.sync(True(done));
@@ -34,28 +31,28 @@ test("timelineAB = allThenResetTL" +
         const expectedTL = T();
 
         {
-            expectedTL.now = [1, 5];
-            timelineA.now = 9;
-            timelineA.now = 1;
-            timelineB.now = 5;
+            expectedTL.next = [1, 5];
+            timelineA.next = 9;
+            timelineA.next = 1;
+            timelineB.next = 5;
             //filled and cleared
         }
         {
-            expectedTL.now = [9, 2];
-            timelineA.now = 7;
+            expectedTL.next = [9, 2];
+            timelineA.next = 7;
             {
-                timelineA.now = 9;
-                timelineB.now = 2;
+                timelineA.next = 9;
+                timelineB.next = 2;
             } //filled and cleared
         }
         {
-            expectedTL.now = [3, 9];
-            timelineA.now = 1;
+            expectedTL.next = [3, 9];
+            timelineA.next = 1;
             {
-                timelineA.now = undefined;
+                timelineA.next = undefined;
                 {
-                    timelineB.now = 9;
-                    timelineA.now = 3;
+                    timelineB.next = 9;
+                    timelineA.next = 3;
                 } //filled and cleared
             }
         }

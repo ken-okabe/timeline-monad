@@ -1,11 +1,9 @@
 interface timeline {
     type: string;
-    timeFunction: Function;
     now: any;
+    next: any;
     sync: Function;
+    "->": Function;
 }
-declare const world: {
-    now: timeline;
-};
-declare const T: (timeFunction?: Function) => timeline;
-export { T, world };
+declare const T: (initFunction?: Function) => timeline;
+export { T };

@@ -1,5 +1,5 @@
-const requireEsm = require('esm')(module);
-const { T } = requireEsm("../code/dist/timeline-monad.js");
+import { T } from "../code/dist/timeline-monad.js";
+import { allThenResetTL } from "../code/dist/allThenResetTL.js";
 const True = (done) => () => {
     done();
     return true;
@@ -7,30 +7,30 @@ const True = (done) => () => {
 //  multiple values on the timeline
 {
     const timeline = T();
-    test("timeline.now = 1 -> 2 -> 3;", (done) => {
+    test("timeline.next = 1 -> 2 -> 3;", (done) => {
         //--------------------------
-        timeline.sync((a) => expect(a)
+        timeline['->']((a) => expect(a)
             .toBe(timeline.now) //1 -> 2 -> 3
         );
         //-------------------------- 
         //async test helper
-        timeline.sync(True(done));
+        timeline['->'](True(done));
     });
-    timeline.now = 1; //trigger
-    timeline.now = 2; //trigger
-    timeline.now = 3; //trigger
+    timeline.next = 1; //trigger
+    timeline.next = 2; //trigger
+    timeline.next = 3; //trigger
 }
 {
     const timeline = T();
-    timeline.now = 1;
-    timeline.now = 2;
-    timeline.now = 3; //trigger
-    test("timeline.now = 3;", (done) => {
+    timeline.next = 1;
+    timeline.next = 2;
+    timeline.next = 3; //trigger
+    test("timeline.next = 3;", (done) => {
         //--------------------------
-        timeline.sync((a) => expect(a)
+        timeline['->']((a) => expect(a)
             .toBe(3));
         //--------------------------
         //async test helper
-        timeline.sync(True(done));
+        timeline['->'](True(done));
     });
 }

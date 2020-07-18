@@ -4,6 +4,8 @@ ifndef::imagesdir[:imagesdir: ./img/]
 ifndef::source-highlighter[:source-highlighter: highlightjs]
 ifndef::highlightjs-theme:[:highlightjs-theme: solarized-dark]
 
+= **timeline-monad 3.x API is incompatible to the following document.**
+
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise[ES6+ Promise] is widely used in JavaScript.
 
 Promise and timeline-monad(FRP) has a common nature to handle asynchronous behaviors in functional programming, and both has similar syntax.
