@@ -5,12 +5,14 @@ Ken Okabe <stken2050@gmail.com>
 :homepage:    https://kenokabe.github.io/timeline-monad/
 :source:      https://github.com/kenokabe/timeline-monad
 :toc: left
+:toclevels: 2
 :sectnums:
-:toclevels: 1
-:source-highlighter: highlightjs
-:highlightjs-theme: solarized-dark
-:imagesdir: ./img/ 
 :stem: latexmath
+:icons: font
+:source-highlighter: highlightjs
+:highlightjs-theme: tomorrow-night
+:imagesdir: ./img/
+ 
  
 ++++
 <style type="text/css">

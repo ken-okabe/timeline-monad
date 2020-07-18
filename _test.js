@@ -1,7 +1,7 @@
 import { T } from "./code/dist/timeline-monad.js";
 import { allThenResetTL } from "./code/dist/allThenResetTL.js";
 
-{/*
+{
   const left = (a) => (b) => a;
   const right = (a) => (b) => b;
   const IO = {};
@@ -17,11 +17,17 @@ import { allThenResetTL } from "./code/dist/allThenResetTL.js";
     IO.dummy0 = IO.b['->'](console.log);
     IO.start = T();
     // console.log(IO.start.now);
-    IO.timer = T((self) => left(undefined)(IO.start['->']((msg) => left(self.next = msg)(setInterval(() => self.next = "ping", 1000)))));
+    IO.timer = T((self) =>
+      left
+        (undefined)
+        (IO.start['->']((msg) =>
+          left
+            (self.next = msg)
+            (setInterval(() => self.next = "ping", 1000)))));
     IO.dummy = IO.timer['->'](console.log);
     IO.start.next = "start";
   }
-  */
+
 }
 
 const a = T(self => 1)['->'](a => a * 2);
