@@ -7,7 +7,7 @@ const events = (observers) => ({
     register: (f) => (observers[observers.length] = f),
     trigger: (val) => observers.map((f) => f(val))
 });
-const syncF = (timeline) => (self) => (f) => ((val) => val === undefined
+const syncF = (timeline) => (f) => (self) => ((val) => val === undefined
     ? undefined
     : ((nextVal) => 
     // RightIdentity: join = TTX => TX
@@ -28,7 +28,7 @@ const T = (initFunction = (timeline) => undefined) => {
         },
         sync: (f) => T((self) => ((ff) => third //<1> first, register the sync function
         (ev.register(ff))(ff(timeline.now))(self.now) //<3> returns init value on joint
-        )(syncF(timeline)(self)(f)) //ff
+        )(syncF(timeline)(f)(self)) //ff
         ),
         "->": (f) => timeline.sync(f)
     }))(undefined)(events([]));

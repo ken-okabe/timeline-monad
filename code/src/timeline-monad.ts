@@ -22,8 +22,8 @@ const events = (observers: Function[]) => ({
 });
 
 const syncF = (timeline: timeline) =>
-  (self: timeline) =>
-    (f: Function) =>
+  (f: Function) =>
+    (self: timeline) =>
       ((val: unknown) =>
         val === undefined
           ? undefined
@@ -56,7 +56,7 @@ const T = (initFunction: Function =
             //<2> trigger self by the left operand on joint
             (ff(timeline.now))
             (self.now)//<3> returns init value on joint
-        )(syncF(timeline)(self)(f))//ff
+        )(syncF(timeline)(f)(self))//ff
       ),
     "->": (f: Function) => timeline.sync(f)
   }))(undefined)(events([]));
