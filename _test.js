@@ -30,14 +30,35 @@ import { allThenResetTL } from "./code/dist/allThenResetTL.js";
 
 }*/
 
-const a = T(self => 1)['->']
-  (a => T(self => a * 2));
-//const b = a['->'](a => a * 2);
+const log = msg => (console.log(
+  typeof msg === "function"
+    ? msg
+    : JSON.stringify(msg))
+  , msg);
 
-a['->'](console.log);
+{
 
-a.next = 5;
+  const a = T();
+  a['->'](log)['->'](log);
 
+
+}
+{
+
+  const a = T(self => 1)['->'](a => a * 2);
+  //const b = a['->'](a => a * 2);
+
+
+  a['->'](a => log("a:" + a))
+  a['->'](log)['->'](log);
+
+
+  a.next = undefined;
+  a.next = 5;
+
+  a.next = undefined;
+
+}
 //console.log(a.now);
 //console.log(b.now);
 //b['->'](console.log);

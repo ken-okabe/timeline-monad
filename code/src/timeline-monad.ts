@@ -1,5 +1,3 @@
-import { time } from "console";
-
 interface timeline {
   type: string;
   now: any;
@@ -33,27 +31,31 @@ const T = (initFunction: Function =
     get now() { //getter returns a value of now
       return currentVal;
     },
-    set next(nextVal: unknown) {
-      //log("next:" + nextVal);
-      ((currentVal = nextVal) === undefined)
-        ? undefined
-        : ev.trigger(currentVal);
+    set next(nextVal: unknown) { //log("next:" + nextVal);
+      ev.trigger(currentVal = nextVal);
     },
     sync: ((ev) => (f: Function) =>
       T((self: timeline) =>
-        third //<1> first, register the sync function
-          (ev.register((val: unknown) =>
-            ((nextVal: undefined | timeline) =>
-              // RightIdentity: join = TTX => TX  
-              ((nextVal !== undefined) &&
-                (nextVal.type === timeline.type)
-                ? nextVal.sync((val: unknown) =>
-                  self.next = val)
-                : (self.next = nextVal) /*&& (log(self.now))*/
-              ))(f(val)))) //nextVal
-          //<2> trigger the left operand on joint
-          (timeline.next = timeline.now)
-          (self.now)//<3> returns init value on joint
+        ((ff: Function) =>
+          third //<1> first, register the sync function
+            (ev.register(ff))
+            //<2> trigger self by the left operand on joint
+            (ff(timeline.now))
+            (self.now)//<3> returns init value on joint
+        )(
+          (val: unknown) =>
+            (val === undefined)
+              ? undefined
+              : ((nextVal: undefined | timeline) =>
+                // RightIdentity: join = TTX => TX
+                ((nextVal === undefined)
+                  ? undefined
+                  : (nextVal.type === timeline.type)
+                    ? nextVal.sync((val: unknown) =>
+                      self.next = val)
+                    : (self.next = nextVal) /*&& (log(self.now))*/
+                ))(f(val))//nextVal
+        )
       ))(ev),
     "->": (f: Function) => timeline.sync(f)
   }))(undefined)(events([]));
