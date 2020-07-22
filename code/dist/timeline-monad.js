@@ -18,11 +18,11 @@ const T = (initFunction = (timeline) => undefined) => {
         },
         sync: ((ev) => (f) => T((self) => ((ff) => third //<1> first, register the sync function
         (ev.register(ff))(ff(timeline.now))(self.now) //<3> returns init value on joint
-        )((val) => (val === undefined)
+        )((val) => val === undefined
             ? undefined
             : ((nextVal) => 
             // RightIdentity: join = TTX => TX
-            ((nextVal === undefined)
+            (nextVal === undefined
                 ? undefined
                 : (nextVal.type === timeline.type)
                     ? nextVal.sync((val) => self.next = val)

@@ -44,11 +44,11 @@ const T = (initFunction: Function =
             (self.now)//<3> returns init value on joint
         )(
           (val: unknown) =>
-            (val === undefined)
+            val === undefined
               ? undefined
               : ((nextVal: undefined | timeline) =>
                 // RightIdentity: join = TTX => TX
-                ((nextVal === undefined)
+                (nextVal === undefined
                   ? undefined
                   : (nextVal.type === timeline.type)
                     ? nextVal.sync((val: unknown) =>
