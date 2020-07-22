@@ -1,12 +1,22 @@
-const right = (a) => (b) => b;
 const third = (a) => (b) => (c) => c;
-const log = (msg) => right(console.log(typeof msg === "function"
+const log = (msg) => (console.log(typeof msg === "function"
     ? msg
-    : JSON.stringify(msg)))(msg);
+    : JSON.stringify(msg))
+    , msg);
 const events = (observers) => ({
     register: (f) => (observers[observers.length] = f),
-    trigger: (val) => right(observers.map((f) => f(val)))(val)
+    trigger: (val) => observers.map((f) => f(val))
 });
+const syncF = (timeline) => (self) => (f) => ((val) => val === undefined
+    ? undefined
+    : ((nextVal) => 
+    // RightIdentity: join = TTX => TX
+    (nextVal === undefined
+        ? undefined
+        : (nextVal.type === timeline.type)
+            ? nextVal.sync((val) => self.next = val)
+            : (self.next = nextVal) /*&& (log(self.now))*/))(f(val)) //nextVal
+);
 const T = (initFunction = (timeline) => undefined) => {
     const timeline = ((currentVal) => (ev) => ({
         type: "timeline-monad",
@@ -16,18 +26,10 @@ const T = (initFunction = (timeline) => undefined) => {
         set next(nextVal) {
             ev.trigger(currentVal = nextVal);
         },
-        sync: ((ev) => (f) => T((self) => ((ff) => third //<1> first, register the sync function
+        sync: (f) => T((self) => ((ff) => third //<1> first, register the sync function
         (ev.register(ff))(ff(timeline.now))(self.now) //<3> returns init value on joint
-        )((val) => val === undefined
-            ? undefined
-            : ((nextVal) => 
-            // RightIdentity: join = TTX => TX
-            (nextVal === undefined
-                ? undefined
-                : (nextVal.type === timeline.type)
-                    ? nextVal.sync((val) => self.next = val)
-                    : (self.next = nextVal) /*&& (log(self.now))*/))(f(val)) //nextVal
-        )))(ev),
+        )(syncF(timeline)(self)(f)) //ff
+        ),
         "->": (f) => timeline.sync(f)
     }))(undefined)(events([]));
     //just initialization and no trigger since there's no sync yet
